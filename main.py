@@ -3,6 +3,8 @@ from flask import Flask, request
 import os
 from os.path import join, dirname
 import requests
+from werkzeug.utils import redirect
+
 from src import urls
 from dotenv import load_dotenv
 
@@ -30,6 +32,15 @@ def processing():
         send_message(chat_id, "Hello, sweetheart!")
         return {"ok": True}
     return {"ok": True}
+
+
+@app.before_request
+def before_request():
+    if 'DYNO' in os.environ:
+        if request.url.startswith('http://'):
+            url = request.url.replace('http://', 'https://', 1)
+            code = 301
+            return redirect(url, code=code)
 
 
 if __name__ == '__main__':
