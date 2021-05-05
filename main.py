@@ -10,7 +10,7 @@ import time
 
 app = Flask(__name__)
 bot = telebot.TeleBot('1782721424:AAFjjA7SQ1AzYmIYszj6Fv2W9Mqq-fRzM6Y')
-bot.set_webhook(url="https://telegram-webhook-guide.herokuapp.com:443")
+bot.set_webhook()
 
 
 def get_from_env(key):
@@ -37,4 +37,4 @@ def processing():
 
 
 if __name__ == '__main__':
-    app.run(host="https://telegram-webhook-guide.herokuapp.com", port=int(os.environ.get('PORT', '443')))
+    app.run(host="https://telegram-webhook-guide.herokuapp.com/", port=int(os.environ.get('PORT', '443')))
