@@ -17,7 +17,7 @@ def get_from_env(key):
 
 def send_message(chat_id, text, parse_mode=None, reply_markup=None):
     method = "sendMessage"
-    token = get_from_env("BOT_TOKEN")
+    token = '1782721424:AAFjjA7SQ1AzYmIYszj6Fv2W9Mqq-fRzM6Y'
     url = urls.TELEGRAM_BOT_URL + f"{token}/{method}"
     data = {"chat_id": chat_id, "text": text, "parse_mode": parse_mode, "reply_markup": reply_markup}
     requests.post(url, data=data)
