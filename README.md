@@ -25,3 +25,6 @@ export FLASK_APP=main.py
 export FLASK_ENV=development
 flask run
 ```
+
+### Deploying on Heroku
+add Procfile, it is important for heroku
