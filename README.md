@@ -28,3 +28,7 @@ flask run
 
 ### Deploying on Heroku
 add Procfile, it is important for heroku
+also do pip freeze > requirements.txt
+```
+trying autodeply in heroku
+```
