@@ -33,4 +33,4 @@ def processing():
 
 
 if __name__ == '__main__':
-    app.run(port=8443)
+    app.run(port=8443, ip="0.0.0.0")
