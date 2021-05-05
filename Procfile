@@ -1,1 +1,1 @@
-worker: FLASK_APP=main.py FLASK_ENV=development flask run
+worker: FLASK_APP=main.py flask run
