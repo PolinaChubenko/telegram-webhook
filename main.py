@@ -34,14 +34,5 @@ def processing():
     return {"ok": True}
 
 
-@app.before_request
-def before_request():
-    if 'DYNO' in os.environ:
-        if request.url.startswith('http://'):
-            url = request.url.replace('http://', 'https://', 1)
-            code = 301
-            return redirect(url, code=code)
-
-
 if __name__ == '__main__':
     app.run(port=8443, host="0.0.0.0")
