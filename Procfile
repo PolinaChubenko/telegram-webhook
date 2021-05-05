@@ -1,1 +1,1 @@
-worker: flask
+worker: flask run
