@@ -23,10 +23,12 @@ def send_message(chat_id, text, parse_mode=None, reply_markup=None):
     requests.post(url, data=data)
 
 
-@app.route("/", methods=["POST"])
+@app.route("/", methods=["POST", "GET"])
 def processing():
-    chat_id = request.json["message"]["chat"]["id"]
-    send_message(chat_id, "Hello, sweetheart!")
+    if request.method == "POST":
+        chat_id = request.json["message"]["chat"]["id"]
+        send_message(chat_id, "Hello, sweetheart!")
+        return {"ok": True}
     return {"ok": True}
 
 
