@@ -1,16 +1,34 @@
-# This is a sample Python script.
+import json
+from flask import Flask, request
+import os
+from os.path import join, dirname
+import requests
+from src import urls
+from dotenv import load_dotenv
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+app = Flask(__name__)
 
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+def get_from_env(key):
+    dotenv_path = join(dirname(__file__), '.env')
+    load_dotenv(dotenv_path)
+    return os.environ.get(key)
 
 
-# Press the green button in the gutter to run the script.
+def send_message(chat_id, text, parse_mode=None, reply_markup=None):
+    method = "sendMessage"
+    token = get_from_env("BOT_TOKEN")
+    url = urls.TELEGRAM_BOT_URL + f"{token}/{method}"
+    data = {"chat_id": chat_id, "text": text, "parse_mode": parse_mode, "reply_markup": reply_markup}
+    requests.post(url, data=data)
+
+
+@app.route("/", methods=["POST"])
+def processing():
+    chat_id = request.json["message"]["chat"]["id"]
+    send_message(chat_id, "Hello, sweetheart!")
+    return {"ok": True}
+
+
 if __name__ == '__main__':
-    print_hi('PyCharm')
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+    app.run()
