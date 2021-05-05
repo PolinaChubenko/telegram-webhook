@@ -23,7 +23,7 @@ def send_message(chat_id, text, parse_mode=None, reply_markup=None):
     requests.post(url, data=data)
 
 
-@app.route("/", methods=["POST", "GET"])
+@app.route("/", methods=["POST"])
 def processing():
     if request.method == "POST":
         chat_id = request.json["message"]["chat"]["id"]
@@ -33,4 +33,4 @@ def processing():
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(port="443")
