@@ -22,11 +22,11 @@ try:
 except:
     pass
 
-# try:
-cur.execute("INSERT INTO albums VALUES('Igor','Audi')")
-conn.commit()
-# except:
-#     conn.rollback()
+try:
+    cur.execute("INSERT INTO albums VALUES('Igor','Audi')")
+    conn.commit()
+except:
+    conn.rollback()
 
 app = Flask(__name__)
 
