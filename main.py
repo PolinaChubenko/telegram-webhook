@@ -30,6 +30,7 @@ def create_table():
 
 
 app = Flask(__name__)
+create_table()
 
 
 def add_value(chat_id):
@@ -71,5 +72,4 @@ def processing():
 
 
 if __name__ == '__main__':
-    create_table()
     app.run()
