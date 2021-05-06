@@ -43,14 +43,14 @@ def db_add_value(chat_id):
         cursor = connection.cursor()
         cursor.execute("""SELECT COUNT(*) FROM chats_db WHERE chat_id = %s""", (chat_id,))
         exists = cursor.fetchone()
-        print(exists)
+        # print(exists)
         if exists == (0,):
             cursor.execute("""INSERT INTO chats_db(chat_id, mode) VALUES(%s, %s)""", (chat_id, ''))
         cursor.close()
         connection.commit()
     except (Exception, psycopg2.DatabaseError) as error:
         connection.rollback()
-        print(error)
+        # print(error)
     finally:
         if connection is not None:
 
@@ -67,7 +67,7 @@ def bd_change_value(chat_id, mode):
         connection.commit()
     except (Exception, psycopg2.DatabaseError) as error:
         connection.rollback()
-        print(error)
+        # print(error)
     finally:
         if connection is not None:
             connection.close()
@@ -78,14 +78,14 @@ def db_get_value(chat_id):
     try:
         connection = psycopg2.connect(DATABASE_URL, sslmode='require')
         cursor = connection.cursor()
-        cursor.execute("""SELECT COUNT(*) FROM chats_db WHERE chat_id = %s""", (chat_id,))
+        cursor.execute("""SELECT mode FROM chats_db WHERE chat_id = %s""", (chat_id,))
         mode = cursor.fetchone()
         print(mode)
         cursor.close()
         connection.commit()
     except (Exception, psycopg2.DatabaseError) as error:
         connection.rollback()
-        print(error)
+        # print(error)
     finally:
         if connection is not None:
             connection.close()
