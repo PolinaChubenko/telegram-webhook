@@ -34,6 +34,10 @@ trying autodeply in heroku
 ```
 heroku addons:create heroku-postgresql:hobby-dev
 heroku pg:psql
-/dt
 pip install psycopg2-binary
+
+for database
+\dt - see all migrations
+\q - quit
+select * from table_name; - see table
 

@@ -75,12 +75,13 @@ def bd_change_value(chat_id, mode):
 
 def db_get_value(chat_id):
     connection = None
+    response = ''
     try:
         connection = psycopg2.connect(DATABASE_URL, sslmode='require')
         cursor = connection.cursor()
         cursor.execute("""SELECT mode FROM chats_db WHERE chat_id = %s""", (chat_id,))
         mode = cursor.fetchone()
-        print(mode)
+        response = mode[0]
         cursor.close()
         connection.commit()
     except (Exception, psycopg2.DatabaseError) as error:
@@ -89,6 +90,7 @@ def db_get_value(chat_id):
     finally:
         if connection is not None:
             connection.close()
+        return response
 
 
 def get_from_env(key):
@@ -125,7 +127,7 @@ def parse_command(chat_id, command):
     elif command == "/today" or command == "/tomorrow":
         bd_change_value(chat_id, command[1:])
         if text != "":
-            send_message(chat_id, "I changed mode for" + text)
+            send_message(chat_id, "I changed mode for working with " + text)
 
 
 @app.route("/", methods=["POST"])
@@ -136,8 +138,8 @@ def processing():
         text = request.json["message"]["text"]
         parse_command(chat_id, text)
     else:
-        db_get_value(chat_id)
-        send_message(chat_id, "Hello, sweetheart!")
+        m = db_get_value(chat_id)
+        send_message(chat_id, "Hello, sweetheart! You mode is " + m)
     return {"ok": True}
 
 
