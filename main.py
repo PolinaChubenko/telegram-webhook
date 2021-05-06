@@ -12,7 +12,7 @@ import psycopg2
 DATABASE_URL = os.environ['DATABASE_URL']
 connection = psycopg2.connect(DATABASE_URL, sslmode='require')
 cursor = connection.cursor()
-cursor.execute('DROP DATABASE IF EXISTS chats_db')
+# cursor.execute('DROP DATABASE IF EXISTS chats_db')
 cursor.execute("""CREATE TABLE chats_db (id INTEGER PRIMARY KEY AUTOINCREMENT, chat_id INTEGER, mode TEXT)""")
 
 
