@@ -12,10 +12,8 @@ import psycopg2
 DATABASE_URL = os.environ['DATABASE_URL']
 connection = psycopg2.connect(DATABASE_URL, sslmode='require')
 cursor = connection.cursor()
-try:
-    cursor.execute("""CREATE TABLE chats (id INTEGER PRIMARY KEY AUTOINCREMENT, chat_id INTEGER, mode TEXT)""")
-except psycopg2.Error:
-    pass
+cursor.execute('DROP DATABASE IF EXISTS chats_db')
+cursor.execute("""CREATE TABLE chats_db (id INTEGER PRIMARY KEY AUTOINCREMENT, chat_id INTEGER, mode TEXT)""")
 
 
 app = Flask(__name__)
@@ -23,7 +21,7 @@ app = Flask(__name__)
 
 def add_value(chat_id):
     try:
-        cursor.execute("INSERT INTO albums VALUES(NULL, ?, '')", chat_id)
+        cursor.execute("INSERT INTO chats_db VALUES(NULL, ?, '')", chat_id)
         connection.commit()
     except psycopg2.Error:
         connection.rollback()
