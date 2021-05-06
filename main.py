@@ -19,7 +19,7 @@ print(cur.execute('SELECT version()'))
 
 try:
     cur.execute("""CREATE TABLE albums (title TEXT, artist TEXT)""")
-except SyntaxError:
+except:
     pass
 cur.execute("""INSERT INTO albums VALUES ('Glow', 'Andy Hunter')""")
 conn.commit()
