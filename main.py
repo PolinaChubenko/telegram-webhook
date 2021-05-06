@@ -9,26 +9,28 @@ from dotenv import load_dotenv
 import os
 import psycopg2
 
+app = Flask(__name__)
 
 DATABASE_URL = os.environ['DATABASE_URL']
-conn = psycopg2.connect(DATABASE_URL, sslmode='require')
-cur = conn.cursor()
+connection = psycopg2.connect(DATABASE_URL, sslmode='require')
 
-print('PostgreSQL database version:')
-print(cur.execute('SELECT version()'))
 
-try:
-    cur.execute("""CREATE TABLE albums (title TEXT, artist TEXT)""")
-except:
-    pass
+def add_table():
+    try:
+        cursor = connection.cursor()
+        cursor.execute("""CREATE TABLE chats (id INTEGER PRIMARY KEY AUTOINCREMENT, chat_id INTEGER, mode TEXT)""")
+        cursor.close()
+    except psycopg2.Error:
+        pass
 
-try:
-    cur.execute("INSERT INTO albums VALUES('Igor','Audi')")
-    conn.commit()
-except:
-    conn.rollback()
 
-app = Flask(__name__)
+def add_value(chat_id):
+    try:
+        cursor = connection.cursor()
+        cursor.execute("INSERT INTO albums VALUES(NULL, ?, '')", chat_id)
+        connection.commit()
+    except psycopg2.Error:
+        connection.rollback()
 
 
 def get_from_env(key):
@@ -47,10 +49,9 @@ def send_message(chat_id, text, parse_mode=None, reply_markup=None):
 
 @app.route("/", methods=["POST"])
 def processing():
-    if request.method == "POST":
-        chat_id = request.json["message"]["chat"]["id"]
-        send_message(chat_id, "Hello, sweetheart!")
-        return {"ok": True}
+    chat_id = request.json["message"]["chat"]["id"]
+    add_value(chat_id)
+    send_message(chat_id, "Hello, sweetheart!")
     return {"ok": True}
 
 
