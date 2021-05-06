@@ -22,7 +22,7 @@ cur = conn.cursor()
 print('PostgreSQL database version:')
 print(cur.execute('SELECT version()'))
 
-cur.execute("""CREATE TABLE albums (title text, artist text, release_date text, publisher text, media_type text)""")
+cur.execute("""CREATE TABLE IF NOT EXIST albums (title text, artist text, release_date text, publisher text, media_type text)""")
 cur.execute("""INSERT INTO albums VALUES ('Glow', 'Andy Hunter', '7/24/2012', 'Xplore Records', 'MP3')""")
 conn.commit()
 
