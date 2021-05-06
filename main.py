@@ -21,13 +21,14 @@ def create_table():
     try:
         connection = psycopg2.connect(DATABASE_URL, sslmode='require')
         cursor = connection.cursor()
-        # cursor.execute('DROP DATABASE IF EXISTS chats_db')
+        cursor.execute('DROP DATABASE IF EXISTS chats_db')
         creation = """CREATE TABLE chats_db (id SERIAL PRIMARY KEY, chat_id INTEGER, mode TEXT)"""
         cursor.execute(creation)
         cursor.close()
-        connection.commit()
-    except (Exception, psycopg2.DatabaseError) as error:
-        print(error)
+    except psycopg2.DatabaseError:
+        pass
+    # except (Exception, psycopg2.DatabaseError) as error:
+    #     print(error)
     finally:
         if connection is not None:
             connection.close()
@@ -42,7 +43,10 @@ def add_value(chat_id):
     try:
         connection = psycopg2.connect(DATABASE_URL, sslmode='require')
         cursor = connection.cursor()
-        cursor.execute("INSERT INTO chats_db(chat_id, mode) VALUES(%s, %s)", (chat_id, ''))
+        cursor.execute("""SELECT COUNT(*) FROM chats_db WHERE chat_id = %s""", (chat_id,))
+        exists = cursor.fetcall()
+        if exists == 0:
+            cursor.execute("""INSERT INTO chats_db(chat_id, mode) VALUES(%s, %s)""", (chat_id, ''))
         cursor.close()
         connection.commit()
     except (Exception, psycopg2.DatabaseError) as error:
