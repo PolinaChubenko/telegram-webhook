@@ -21,8 +21,12 @@ try:
     cur.execute("""CREATE TABLE albums (title TEXT, artist TEXT)""")
 except:
     pass
+
+# try:
 cur.execute("INSERT INTO albums VALUES('Igor','Audi')")
 conn.commit()
+# except:
+#     conn.rollback()
 
 app = Flask(__name__)
 
