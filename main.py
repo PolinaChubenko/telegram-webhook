@@ -43,10 +43,10 @@ def add_value(chat_id):
     try:
         connection = psycopg2.connect(DATABASE_URL, sslmode='require')
         cursor = connection.cursor()
-        cursor.execute("""SELECT * FROM chats_db WHERE chat_id = %s""", (chat_id,))
-        exists = cursor.fetcone()
+        cursor.execute("""SELECT COUNT(*) FROM chats_db WHERE chat_id = %s""", (chat_id,))
+        exists = cursor.fetchone()
         print(exists)
-        if len(exists) == 0:
+        if exists == 0:
             cursor.execute("""INSERT INTO chats_db(chat_id, mode) VALUES(%s, %s)""", (chat_id, ''))
         cursor.close()
         connection.commit()
