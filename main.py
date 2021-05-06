@@ -14,17 +14,15 @@ DATABASE_URL = os.environ['DATABASE_URL']
 conn = psycopg2.connect(DATABASE_URL, sslmode='require')
 cur = conn.cursor()
 
-# cursor.execute("""CREATE TABLE albums
-#                   (title text, artist text, release_date text,
-#                    publisher text, media_type text)
-#                """)
-
 print('PostgreSQL database version:')
 print(cur.execute('SELECT version()'))
 
-cur.execute("""CREATE TABLE IF NOT EXIST TABLE albums (title TEXT, artist TEXT)""")
-# cur.execute("""INSERT INTO albums VALUES ('Glow', 'Andy Hunter')""")
-# conn.commit()
+try:
+    cur.execute("""CREATE TABLE albums (title TEXT, artist TEXT)""")
+except SyntaxError:
+    pass
+cur.execute("""INSERT INTO albums VALUES ('Glow', 'Andy Hunter')""")
+conn.commit()
 
 app = Flask(__name__)
 
