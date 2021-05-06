@@ -10,46 +10,47 @@ import os
 import psycopg2
 
 DATABASE_URL = os.environ['DATABASE_URL']
-connection = psycopg2.connect(DATABASE_URL, sslmode='require')
-cursor = connection.cursor()
-creation = """CREATE TABLE chats_db (id SERIAL PRIMARY KEY, chat_id INTEGER, mode TEXT)"""
-cursor.execute(creation)
-
-# def create_table():
-#     connection = None
-#     try:
-#         connection = psycopg2.connect(DATABASE_URL, sslmode='require')
-#         cursor = connection.cursor()
-#         cursor.execute('DROP DATABASE IF EXISTS chats_db')
-#         creation = """CREATE TABLE chats_db (id SERIAL PRIMARY KEY, chat_id INTEGER, mode TEXT)"""
-#         cursor.execute(creation)
-#         cursor.close()
-#         connection.commit()
-#     except (Exception, psycopg2.DatabaseError) as error:
-#         print(error)
-#     finally:
-#         if connection is not None:
-#             connection.close()
+# connection = psycopg2.connect(DATABASE_URL, sslmode='require')
+# cursor = connection.cursor()
+# creation = """CREATE TABLE chats_db (id SERIAL PRIMARY KEY, chat_id INTEGER, mode TEXT)"""
+# cursor.execute(creation)
 
 
-app = Flask(__name__)
-# create_table()
-
-
-def add_value(chat_id):
-    # connection = None
+def create_table():
+    connection = None
     try:
-        # connection = psycopg2.connect(DATABASE_URL, sslmode='require')
-        # cursor = connection.cursor()
-        cursor.execute("INSERT INTO chats_db(chat_id, mode) VALUES(%s, %s)", (chat_id, ''))
-        # cursor.close()
+        connection = psycopg2.connect(DATABASE_URL, sslmode='require')
+        cursor = connection.cursor()
+        # cursor.execute('DROP DATABASE IF EXISTS chats_db')
+        creation = """CREATE TABLE chats_db (id SERIAL PRIMARY KEY, chat_id INTEGER, mode TEXT)"""
+        cursor.execute(creation)
+        cursor.close()
         connection.commit()
     except (Exception, psycopg2.DatabaseError) as error:
         print(error)
-    # finally:
-    #     if connection is not None:
-    #         connection.rollback()
-    #         connection.close()
+    finally:
+        if connection is not None:
+            connection.close()
+
+
+app = Flask(__name__)
+create_table()
+
+
+def add_value(chat_id):
+    connection = None
+    try:
+        connection = psycopg2.connect(DATABASE_URL, sslmode='require')
+        cursor = connection.cursor()
+        cursor.execute("INSERT INTO chats_db(chat_id, mode) VALUES(%s, %s)", (chat_id, ''))
+        cursor.close()
+        connection.commit()
+    except (Exception, psycopg2.DatabaseError) as error:
+        print(error)
+    finally:
+        if connection is not None:
+            connection.rollback()
+            connection.close()
 
 
 def get_from_env(key):
