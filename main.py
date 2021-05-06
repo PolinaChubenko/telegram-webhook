@@ -9,22 +9,20 @@ from dotenv import load_dotenv
 import os
 import psycopg2
 
-app = Flask(__name__)
-
 DATABASE_URL = os.environ['DATABASE_URL']
 connection = psycopg2.connect(DATABASE_URL, sslmode='require')
-creation = """CREATE TABLE chats (id INTEGER PRIMARY KEY AUTOINCREMENT, chat_id INTEGER, mode TEXT)"""
+cursor = connection.cursor()
 try:
-    cursor = connection.cursor()
-    cursor.execute(creation)
-    cursor.close()
+    cursor.execute("""CREATE TABLE chats (id INTEGER PRIMARY KEY AUTOINCREMENT, chat_id INTEGER, mode TEXT)""")
 except psycopg2.Error:
     pass
 
 
+app = Flask(__name__)
+
+
 def add_value(chat_id):
     try:
-        cursor = connection.cursor()
         cursor.execute("INSERT INTO albums VALUES(NULL, ?, '')", chat_id)
         connection.commit()
     except psycopg2.Error:
