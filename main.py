@@ -20,7 +20,7 @@ cur = conn.cursor()
 #                """)
 
 print('PostgreSQL database version:')
-cur.execute('SELECT version()')
+print(cur.execute('SELECT version()'))
 
 app = Flask(__name__)
 
