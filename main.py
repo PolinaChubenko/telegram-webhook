@@ -13,15 +13,13 @@ app = Flask(__name__)
 
 DATABASE_URL = os.environ['DATABASE_URL']
 connection = psycopg2.connect(DATABASE_URL, sslmode='require')
-
-
-def add_table():
-    try:
-        cursor = connection.cursor()
-        cursor.execute("""CREATE TABLE chats (id INTEGER PRIMARY KEY AUTOINCREMENT, chat_id INTEGER, mode TEXT)""")
-        cursor.close()
-    except psycopg2.Error:
-        pass
+creation = """CREATE TABLE chats (id INTEGER PRIMARY KEY AUTOINCREMENT, chat_id INTEGER, mode TEXT)"""
+try:
+    cursor = connection.cursor()
+    cursor.execute(creation)
+    cursor.close()
+except psycopg2.Error:
+    pass
 
 
 def add_value(chat_id):
