@@ -46,7 +46,7 @@ def add_value(chat_id):
         cursor.execute("""SELECT COUNT(*) FROM chats_db WHERE chat_id = %s""", (chat_id,))
         exists = cursor.fetchone()
         print(exists)
-        if exists == 0:
+        if exists == (0,):
             cursor.execute("""INSERT INTO chats_db(chat_id, mode) VALUES(%s, %s)""", (chat_id, ''))
         cursor.close()
         connection.commit()
