@@ -32,3 +32,8 @@ also do pip freeze > requirements.txt
 ```
 trying autodeply in heroku
 ```
+heroku addons:create heroku-postgresql:hobby-dev
+heroku pg:psql
+/dt
+pip install psycopg2-binary
+

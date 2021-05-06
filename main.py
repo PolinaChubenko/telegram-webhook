@@ -6,6 +6,21 @@ import requests
 
 from src import urls
 from dotenv import load_dotenv
+import os
+import psycopg2
+
+
+DATABASE_URL = os.environ['DATABASE_URL']
+conn = psycopg2.connect(DATABASE_URL, sslmode='require')
+cur = conn.cursor()
+
+# cursor.execute("""CREATE TABLE albums
+#                   (title text, artist text, release_date text,
+#                    publisher text, media_type text)
+#                """)
+
+print('PostgreSQL database version:')
+cur.execute('SELECT version()')
 
 app = Flask(__name__)
 
