@@ -73,6 +73,24 @@ def bd_change_value(chat_id, mode):
             connection.close()
 
 
+def db_get_value(chat_id):
+    connection = None
+    try:
+        connection = psycopg2.connect(DATABASE_URL, sslmode='require')
+        cursor = connection.cursor()
+        cursor.execute("""SELECT COUNT(*) FROM chats_db WHERE chat_id = %s""", (chat_id,))
+        mode = cursor.fetchone()
+        print(mode)
+        cursor.close()
+        connection.commit()
+    except (Exception, psycopg2.DatabaseError) as error:
+        connection.rollback()
+        print(error)
+    finally:
+        if connection is not None:
+            connection.close()
+
+
 def get_from_env(key):
     dotenv_path = join(dirname(__file__), '.env')
     load_dotenv(dotenv_path)
@@ -118,6 +136,7 @@ def processing():
         text = request.json["message"]["text"]
         parse_command(chat_id, text)
     else:
+        db_get_value(chat_id)
         send_message(chat_id, "Hello, sweetheart!")
     return {"ok": True}
 
