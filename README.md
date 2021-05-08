@@ -1,4 +1,5 @@
 ![workflow status badge](https://github.com/PolinaChubenko/telegram-webhook/workflows/Telegram-bot/badge.svg)
+![pylint Score](https://mperlet.github.io/pybadge/badges/7.12.svg)
 # telegram bot on heroku
 important modules
 ```
