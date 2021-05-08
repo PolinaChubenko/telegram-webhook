@@ -1,4 +1,4 @@
-![workflow status badge](https://github.com/PolinaChubenko/telegram-webhook/actions/workflows/Telegram-bot/badge.svg)
+![workflow status badge](https://github.com/PolinaChubenko/telegram-webhook/workflows/Telegram-bot/badge.svg)
 # telegram bot on heroku
 important modules
 ```
