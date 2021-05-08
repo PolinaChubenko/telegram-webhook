@@ -36,9 +36,15 @@ jobs:
         anybadge --label=Pylint --file=pylint/pylint.svg --value=$PYLINT_SCORE 2=red 4=orange 8=yellow 10=green
         echo "Pylint score is $PYLINT_SCORE"
     
-    - name: "UploadArtifacts"
+    - name: Upload Artifacts
       uses: actions/upload-artifact@v2
       with:
         name: Distributive
         path: |
           ./pylint/
+    
+    - name: Download a Build Artifact
+    - uses: actions/download-artifact@v2
+      with:
+        name: Distributive
+        path: ./pylint/
