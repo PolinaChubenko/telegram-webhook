@@ -1,4 +1,4 @@
-https://github.com/PolinaChubenko/telegram-webhook/actions/workflows/main/badge.svg
+https://github.com/PolinaChubenko/telegram-webhook/actions/workflows/Telegram-bot/badge.svg
 # telegram bot on heroku
 important modules
 ```
