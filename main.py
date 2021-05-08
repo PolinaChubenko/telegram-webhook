@@ -6,10 +6,16 @@ import requests
 
 from src import urls
 from dotenv import load_dotenv
-import os
 import psycopg2
 
-DATABASE_URL = os.environ['DATABASE_URL']
+
+def get_from_env(key):
+    dotenv_path = join(dirname(__file__), '.env')
+    load_dotenv(dotenv_path)
+    return os.environ.get(key)
+
+
+DATABASE_URL = get_from_env('DATABASE_URL')
 # connection = psycopg2.connect(DATABASE_URL, sslmode='require')
 # cursor = connection.cursor()
 # creation = """CREATE TABLE chats_db (id SERIAL PRIMARY KEY, chat_id INTEGER, mode TEXT)"""
@@ -91,12 +97,6 @@ def db_get_value(chat_id):
         if connection is not None:
             connection.close()
         return response
-
-
-def get_from_env(key):
-    dotenv_path = join(dirname(__file__), '.env')
-    load_dotenv(dotenv_path)
-    return os.environ.get(key)
 
 
 def send_message(chat_id, text, parse_mode=None, reply_markup=None):
